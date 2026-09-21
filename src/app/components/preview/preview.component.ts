@@ -141,15 +141,6 @@ import { Subscription } from 'rxjs';
       </div>
     </div>
   `,
-  styles: [
-    `
-      :host {
-        display: block;
-        height: 100%;
-        overflow: hidden;
-      }
-    `
-  ]
 })
 export class PreviewComponent implements OnInit, OnDestroy {
   private pdfService = inject(PdfService);

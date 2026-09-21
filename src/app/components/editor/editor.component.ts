@@ -127,27 +127,6 @@ import { EditorState } from '@codemirror/state';
       </div>
     </div>
   `,
-  styles: [
-    `
-      :host {
-        display: block;
-        height: 100%;
-        overflow: hidden;
-      }
-      :host ::ng-deep .cm-editor {
-        height: 100%;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 13px;
-        line-height: 1.55;
-      }
-      :host ::ng-deep .cm-scroller {
-        overflow: auto;
-      }
-      :host ::ng-deep .cm-focused {
-        outline: none !important;
-      }
-    `
-  ]
 })
 export class EditorComponent implements OnInit, OnDestroy {
   @ViewChild('editorHost', { static: true }) editorHost!: ElementRef<HTMLDivElement>;

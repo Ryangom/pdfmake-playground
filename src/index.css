@@ -27,3 +27,34 @@
 @utility animate-slide-left {
   animation: slide-in-left 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+
+/*
+ * Component host and CodeMirror overrides moved from component styles arrays
+ * to keep a single stylesheet.
+ */
+app-preview {
+  display: block;
+  height: 100%;
+  overflow: hidden;
+}
+
+app-editor {
+  display: block;
+  height: 100%;
+  overflow: hidden;
+}
+
+app-editor .cm-editor {
+  height: 100%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+app-editor .cm-scroller {
+  overflow: auto;
+}
+
+app-editor .cm-focused {
+  outline: none !important;
+}
