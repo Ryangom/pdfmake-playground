@@ -530,6 +530,112 @@ const CERTIFICATE_CODE = `{
   }
 }`;
 
+const GRADESHEET_CODE = `{
+  "pageOrientation": "landscape",
+  "pageSize": { "width": 1000, "height": 700 },
+  "pageMargins": [40, 40, 40, 40],
+  "header": {
+    "text": "Department Examination & Evaluation • Official Record",
+    "alignment": "right",
+    "fontSize": 9,
+    "color": "#94a3b8",
+    "margin": [40, 20]
+  },
+  "content": [
+    {
+      "text": "Academic Term Grade Sheet & Continuous Assessment",
+      "fontSize": 18,
+      "bold": true,
+      "color": "#0f172a",
+      "margin": [0, 0, 0, 4]
+    },
+    {
+      "text": "Program: B.Sc in Engineering • Semester: Fall 2024 • Batch: 2023",
+      "fontSize": 10,
+      "color": "#64748b",
+      "margin": [0, 0, 0, 20]
+    },
+    {
+      "table": {
+        "headerRows": 1,
+        "widths": [35, 85, 130, 24, 24, 24, 45, 45, 45, 55, 60],
+        "body": [
+          [
+            { "text": "Sl.No", "bold": true, "alignment": "center", "fillColor": "#f1f5f9" },
+            { "text": "Student ID", "bold": true, "fillColor": "#f1f5f9" },
+            { "text": "Student Name", "bold": true, "fillColor": "#f1f5f9" },
+            {
+              "svg": "<svg width=\\"24\\" height=\\"190\\"><text x=\\"15\\" y=\\"95\\" text-anchor=\\"middle\\" font-size=\\"10\\" font-family=\\"Roboto\\" font-weight=\\"bold\\" transform=\\"rotate(-90 15 95)\\">ΣCi×Gi in this Term</text></svg>",
+              "width": 24,
+              "fillColor": "#f8fafc"
+            },
+            {
+              "svg": "<svg width=\\"24\\" height=\\"190\\"><text x=\\"15\\" y=\\"95\\" text-anchor=\\"middle\\" font-size=\\"10\\" font-family=\\"Roboto\\" font-weight=\\"bold\\" transform=\\"rotate(-90 15 95)\\">Marks Obtained in Term</text></svg>",
+              "width": 24,
+              "fillColor": "#f8fafc"
+            },
+            {
+              "svg": "<svg width=\\"24\\" height=\\"190\\"><text x=\\"15\\" y=\\"95\\" text-anchor=\\"middle\\" font-size=\\"10\\" font-family=\\"Roboto\\" font-weight=\\"bold\\" transform=\\"rotate(-90 15 95)\\">Total Credits Taken</text></svg>",
+              "width": 24,
+              "fillColor": "#f8fafc"
+            },
+            { "text": "Term GPA", "bold": true, "alignment": "center", "fillColor": "#f1f5f9" },
+            { "text": "Prev CGPA", "bold": true, "alignment": "center", "fillColor": "#f1f5f9" },
+            { "text": "New CGPA", "bold": true, "alignment": "center", "fillColor": "#f1f5f9" },
+            { "text": "Grade", "bold": true, "alignment": "center", "fillColor": "#f1f5f9" },
+            { "text": "Status", "bold": true, "alignment": "center", "fillColor": "#f1f5f9" }
+          ],
+          [
+            { "text": "1", "alignment": "center" },
+            "2023001",
+            "Sadman Rahman",
+            { "text": "68.4", "alignment": "center" },
+            { "text": "85", "alignment": "center" },
+            { "text": "18", "alignment": "center" },
+            { "text": "3.80", "alignment": "center", "bold": true, "color": "#15803d" },
+            { "text": "3.75", "alignment": "center" },
+            { "text": "3.78", "alignment": "center", "bold": true },
+            { "text": "A", "alignment": "center", "bold": true },
+            { "text": "Promoted", "alignment": "center", "color": "#15803d", "bold": true }
+          ],
+          [
+            { "text": "2", "alignment": "center" },
+            "2023002",
+            "Tasnim Ahmed",
+            { "text": "70.2", "alignment": "center" },
+            { "text": "88", "alignment": "center" },
+            { "text": "18", "alignment": "center" },
+            { "text": "3.90", "alignment": "center", "bold": true, "color": "#15803d" },
+            { "text": "3.82", "alignment": "center" },
+            { "text": "3.86", "alignment": "center", "bold": true },
+            { "text": "A+", "alignment": "center", "bold": true },
+            { "text": "Promoted", "alignment": "center", "color": "#15803d", "bold": true }
+          ],
+          [
+            { "text": "3", "alignment": "center" },
+            "2023003",
+            "Nusrat Jahan",
+            { "text": "63.0", "alignment": "center" },
+            { "text": "78", "alignment": "center" },
+            { "text": "18", "alignment": "center" },
+            { "text": "3.50", "alignment": "center", "bold": true, "color": "#0369a1" },
+            { "text": "3.45", "alignment": "center" },
+            { "text": "3.48", "alignment": "center", "bold": true },
+            { "text": "A-", "alignment": "center", "bold": true },
+            { "text": "Promoted", "alignment": "center", "color": "#15803d", "bold": true }
+          ]
+        ]
+      },
+      "layout": {
+        "hLineWidth": 1,
+        "vLineWidth": 1,
+        "hLineColor": "#cbd5e1",
+        "vLineColor": "#cbd5e1"
+      }
+    }
+  ]
+}`;
+
 export const TEMPLATES: PdfTemplate[] = [
   {
     id: 'starter',
@@ -538,6 +644,14 @@ export const TEMPLATES: PdfTemplate[] = [
     category: 'General',
     icon: 'sparkles',
     code: STARTER_CODE
+  },
+  {
+    id: 'gradesheet',
+    title: 'Academic Grade Sheet (Rotated SVG Headers)',
+    description: 'Landscape examination mark sheet featuring 90° rotated vertical SVG table headers and evaluation metrics.',
+    category: 'Business',
+    icon: 'table',
+    code: GRADESHEET_CODE
   },
   {
     id: 'invoice',
@@ -574,6 +688,12 @@ export const TEMPLATES: PdfTemplate[] = [
 ];
 
 export const COMMON_SNIPPETS: Snippet[] = [
+  {
+    name: 'Vertical Rotated SVG Header (Table Cell)',
+    category: 'Tables',
+    description: 'Rotated 90° vertical text header using vector SVG inside a table column.',
+    snippet: `{\n  "svg": "<svg width=\\"24\\" height=\\"190\\"><text x=\\"15\\" y=\\"95\\" text-anchor=\\"middle\\" font-size=\\"10\\" font-family=\\"Roboto\\" font-weight=\\"bold\\" transform=\\"rotate(-90 15 95)\\">ΣCi×Gi in this Term</text></svg>",\n  "width": 24\n}`
+  },
   {
     name: 'Formatted Table',
     category: 'Tables',

@@ -22,3 +22,5 @@ export interface Snippet {
   description: string;
   snippet: string;
 }
+
+export type EditorMode = 'json' | 'js' | 'compiled';
