@@ -136,7 +136,7 @@ export function evaluateDocDefinition(raw: unknown, mode: 'json' | 'js'): Evalua
     return { success: false, error: 'Document definition cannot be empty.' };
   }
 
-  // Strict JSON evaluation
+  // Strict JSON evaluation with JS fallback for pdfmake object literals/callbacks
   if (mode === 'json') {
     try {
       const parsed = JSON.parse(trimmed);
@@ -145,6 +145,16 @@ export function evaluateDocDefinition(raw: unknown, mode: 'json' | 'js'): Evalua
       }
       return { success: false, error: 'JSON definition must be an object (e.g. { "content": [...] })' };
     } catch (jsonErr: any) {
+      // Fallback: evaluate as JS object literal (supports functions like footer, layout callbacks, unquoted keys)
+      try {
+        const evaluated = new Function(`"use strict"; return (${trimmed});`)();
+        if (evaluated && typeof evaluated === 'object') {
+          return { success: true, docDefinition: evaluated };
+        }
+      } catch {
+        // If JS fallback also fails, report the original JSON syntax error
+      }
+
       const rawMsg = jsonErr?.message || 'Invalid JSON syntax';
       const lineMatch = rawMsg.match(/position (\d+)/i);
       let errorLine: number | undefined;

@@ -24,13 +24,13 @@ const STARTER_CODE = `{
     "color": "#94a3b8",
     "margin": [40, 20]
   },
-  "footer": (currentPage, pageCount) => ({
-    "text": "Page " + currentPage + " of " + pageCount,
+  "footer": {
+    "text": "PDFMake Live Playground • Angular Edition",
     "alignment": "center",
     "fontSize": 9,
     "color": "#94a3b8",
     "margin": [0, 20]
-  }),
+  },
   "content": [
     {
       "text": "PDFMake Code Runner",
