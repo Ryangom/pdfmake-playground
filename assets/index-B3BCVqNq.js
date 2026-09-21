@@ -19,13 +19,13 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
     "color": "#94a3b8",
     "margin": [40, 20]
   },
-  "footer": (currentPage, pageCount) => ({
-    "text": "Page " + currentPage + " of " + pageCount,
+  "footer": {
+    "text": "PDFMake Live Playground • Angular Edition",
     "alignment": "center",
     "fontSize": 9,
     "color": "#94a3b8",
     "margin": [0, 20]
-  }),
+  },
   "content": [
     {
       "text": "PDFMake Code Runner",
@@ -1006,7 +1006,7 @@ const docDefinition = {
 };
 
 return docDefinition;
-`;function Wb(e,t){if(typeof e!=`string`)return{success:!1,error:`Document definition must be a string.`};let n=e.trim();if(!n||n===`undefined`||n===`null`)return{success:!1,error:`Document definition cannot be empty.`};if(t===`json`)try{let e=JSON.parse(n);return e&&typeof e==`object`?{success:!0,docDefinition:e}:{success:!1,error:`JSON definition must be an object (e.g. { "content": [...] })`}}catch(e){let t=e?.message||`Invalid JSON syntax`,r=t.match(/position (\d+)/i),i;if(r&&r[1]){let e=parseInt(r[1],10);i=n.slice(0,e).split(`
+`;function Wb(e,t){if(typeof e!=`string`)return{success:!1,error:`Document definition must be a string.`};let n=e.trim();if(!n||n===`undefined`||n===`null`)return{success:!1,error:`Document definition cannot be empty.`};if(t===`json`)try{let e=JSON.parse(n);return e&&typeof e==`object`?{success:!0,docDefinition:e}:{success:!1,error:`JSON definition must be an object (e.g. { "content": [...] })`}}catch(e){try{let e=Function(`"use strict"; return (${n});`)();if(e&&typeof e==`object`)return{success:!0,docDefinition:e}}catch{}let t=e?.message||`Invalid JSON syntax`,r=t.match(/position (\d+)/i),i;if(r&&r[1]){let e=parseInt(r[1],10);i=n.slice(0,e).split(`
 `).length}return{success:!1,error:`Syntax Error: ${t}`,errorLine:i}}try{let e,t;try{e=Function(`
         "use strict";
         ${n}
