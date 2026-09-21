@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: 'Poppins', sans-serif;
+}
+
 /*
  * Custom keyframes and animation utilities used by the app's modals
  * and slide-in drawer. These class names are referenced in:

@@ -11,6 +11,7 @@ const projectRoot = import.meta.dirname ?? path.dirname(fileURLToPath(import.met
 
 export default defineConfig(() => {
   return {
+    base: '/pdfmake-playground/',
     plugins: [angular(), tailwindcss()],
     resolve: {
       alias: {
