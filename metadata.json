@@ -1,0 +1,6 @@
+{
+  "name": "PDFMake Code Runner & Instant PDF View",
+  "description": "An interactive Angular application to write, edit, and instantly preview and download pdfmake documents in real-time.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

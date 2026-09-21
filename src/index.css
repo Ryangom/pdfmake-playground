@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+/*
+ * Custom keyframes and animation utilities used by the app's modals
+ * and slide-in drawer. These class names are referenced in:
+ *   - templates-modal.component.ts   (animate-fade-in)
+ *   - cheatsheet-drawer.component.ts (animate-fade-in, animate-slide-left)
+ *   - editor.component.ts            (animate-fade-in, error banner)
+ * Tailwind v4 does not ship these by default — they must be defined
+ * explicitly, otherwise the elements just appear with no transition.
+ */
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-in-left {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@utility animate-fade-in {
+  animation: fade-in 0.18s ease-out both;
+}
+
+@utility animate-slide-left {
+  animation: slide-in-left 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
