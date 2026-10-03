@@ -53,6 +53,18 @@ import { Compartment, EditorState } from '@codemirror/state';
               <span>JavaScript</span>
             </button>
 
+            <!-- TS Tab -->
+            <button
+              id="tab-mode-ts"
+              (click)="switchMode('ts')"
+              title="TypeScript Mode (Types, interfaces, compile-time safety)"
+              class="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-semibold tracking-wide transition cursor-pointer"
+              [ngClass]="activeMode() === 'ts' ? 'bg-sky-600 text-white font-bold shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'"
+            >
+              <span class="text-[10px] font-mono font-black px-1 py-0.2 bg-slate-900/30 rounded leading-none">TS</span>
+              <span>TypeScript</span>
+            </button>
+
             <!-- Compiled Tab -->
             <button
               id="tab-mode-compiled"
@@ -145,7 +157,7 @@ import { Compartment, EditorState } from '@codemirror/state';
 
             <!-- Upload / Open file -->
             <label
-              title="Open local .json or .js docDefinition"
+              title="Open local .json, .js, or .ts docDefinition"
               class="px-2.5 py-1 text-xs font-medium text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 rounded cursor-pointer transition flex items-center gap-1.5 active:scale-95"
             >
               <svg class="w-3.5 h-3.5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -154,14 +166,14 @@ import { Compartment, EditorState } from '@codemirror/state';
                 <line x1="12" y1="3" x2="12" y2="15"></line>
               </svg>
               <span class="hidden md:inline">Open</span>
-              <input type="file" accept=".json,.js,.txt" (change)="onFileUpload($event)" class="hidden" />
+              <input type="file" accept=".json,.js,.ts,.txt" (change)="onFileUpload($event)" class="hidden" />
             </label>
 
             <!-- Download Code -->
             <button
               id="download-code-btn"
               (click)="downloadCodeFile()"
-              [title]="activeMode() === 'js' ? 'Save code as .js file' : 'Save code as .json file'"
+              [title]="activeMode() === 'ts' ? 'Save code as .ts file' : (activeMode() === 'js' ? 'Save code as .js file' : 'Save code as .json file')"
               class="px-2.5 py-1 text-xs font-medium text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 rounded transition flex items-center gap-1.5 active:scale-95 cursor-pointer"
             >
               <svg class="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -189,7 +201,13 @@ import { Compartment, EditorState } from '@codemirror/state';
             </svg>
             <div class="leading-relaxed break-words">
               <span class="font-bold text-rose-300">
-                {{ activeMode() === 'js' ? 'JavaScript Execution Error:' : 'Syntax Error:' }}
+                @if (activeMode() === 'ts') {
+                  TypeScript Error:
+                } @else if (activeMode() === 'js') {
+                  JavaScript Execution Error:
+                } @else {
+                  Syntax Error:
+                }
               </span>
               {{ status().errorMessage }}
             </div>
@@ -215,7 +233,9 @@ import { Compartment, EditorState } from '@codemirror/state';
           <span>UTF-8</span>
           <span class="text-slate-600">•</span>
           <span class="font-medium text-slate-300">
-            @if (activeMode() === 'js') {
+            @if (activeMode() === 'ts') {
+              TypeScript Mode (TS 5.7+)
+            } @else if (activeMode() === 'js') {
               JavaScript Mode (ES6+)
             } @else if (activeMode() === 'compiled') {
               Compiled JSON AST
@@ -318,7 +338,9 @@ export class EditorComponent implements OnInit, OnDestroy {
     });
 
     const langExtension =
-      initialMode === 'js' ? javascript() : json();
+      initialMode === 'ts'
+        ? javascript({ typescript: true })
+        : (initialMode === 'js' ? javascript() : json());
     const isReadOnly = initialMode === 'compiled';
 
     const startState = EditorState.create({
@@ -362,7 +384,15 @@ export class EditorComponent implements OnInit, OnDestroy {
   private applyModeToEditor(mode: EditorMode): void {
     if (!this.editorView) return;
 
-    if (mode === 'js') {
+    if (mode === 'ts') {
+      this.editorView.dispatch({
+        effects: [
+          this.languageCompartment.reconfigure(javascript({ typescript: true })),
+          this.readOnlyCompartment.reconfigure(EditorState.readOnly.of(false))
+        ]
+      });
+      this.setEditorContent(this.pdfService.getCode());
+    } else if (mode === 'js') {
       this.editorView.dispatch({
         effects: [
           this.languageCompartment.reconfigure(javascript()),
@@ -468,7 +498,9 @@ export class EditorComponent implements OnInit, OnDestroy {
     reader.onload = (e) => {
       const text = e.target?.result as string;
       if (text) {
-        if (file.name.endsWith('.js') && this.activeMode() !== 'js') {
+        if (file.name.endsWith('.ts') && this.activeMode() !== 'ts') {
+          this.pdfService.setMode('ts');
+        } else if (file.name.endsWith('.js') && this.activeMode() !== 'js') {
           this.pdfService.setMode('js');
         } else if (file.name.endsWith('.json') && this.activeMode() !== 'json') {
           this.pdfService.setMode('json');
@@ -487,6 +519,9 @@ export class EditorComponent implements OnInit, OnDestroy {
     if (this.activeMode() === 'compiled') {
       code = this.latestCompiledJson;
       filename = 'docDefinition.compiled.json';
+    } else if (this.activeMode() === 'ts') {
+      code = this.pdfService.getCode();
+      filename = 'docDefinition.ts';
     } else if (this.activeMode() === 'js') {
       code = this.pdfService.getCode();
       filename = 'docDefinition.js';
@@ -495,7 +530,9 @@ export class EditorComponent implements OnInit, OnDestroy {
       filename = 'docDefinition.json';
     }
 
-    const mimeType = filename.endsWith('.js') ? 'text/javascript' : 'application/json';
+    const mimeType =
+      filename.endsWith('.ts') ? 'text/typescript' :
+      (filename.endsWith('.js') ? 'text/javascript' : 'application/json');
     const blob = new Blob([code], { type: mimeType });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

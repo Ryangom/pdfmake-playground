@@ -42,9 +42,20 @@ import { PdfTemplate } from '../../types';
             >
               <div>
                 <div class="flex items-center justify-between gap-2 mb-2">
-                  <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
-                    {{ tpl.category }}
-                  </span>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+                      {{ tpl.category }}
+                    </span>
+                    @if (tpl.mode === 'ts') {
+                      <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-400 border border-sky-500/30">
+                        TypeScript
+                      </span>
+                    } @else if (tpl.mode === 'js') {
+                      <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                        JavaScript
+                      </span>
+                    }
+                  </div>
                   <span class="text-[11px] text-slate-400 font-mono">id: {{ tpl.id }}</span>
                 </div>
                 <h3 class="text-sm font-bold text-white group-hover:text-indigo-300 transition">

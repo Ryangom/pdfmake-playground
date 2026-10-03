@@ -5,6 +5,7 @@ export interface PdfTemplate {
   category: 'Business' | 'Finance' | 'Legal' | 'Creative' | 'General';
   icon: string;
   code: string;
+  mode?: EditorMode;
 }
 
 export interface RenderStatus {
@@ -23,4 +24,4 @@ export interface Snippet {
   snippet: string;
 }
 
-export type EditorMode = 'json' | 'js' | 'compiled';
+export type EditorMode = 'json' | 'js' | 'ts' | 'compiled';
